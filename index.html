@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela Periódica Interativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'metal-alcalino': '#ff8a65',
+                        'metal-alcalino-terroso': '#ffb74d',
+                        'metal-transicao': '#4fc3f7',
+                        'semimetal': '#81c784',
+                        'nao-metal': '#fff176',
+                        'halogenio': '#ba68c8',
+                        'gas-nobre': '#7986cb',
+                        'lantanideo': '#4db6ac',
+                        'actinideo': '#f06292',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-200">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2 text-primary">Tabela Periódica dos Elementos</h1>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Clique em um elemento para ver mais detalhes</p>
+            
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-metal-alcalino rounded-sm mr-1"></div>
+                    <span class="text-sm">Metais Alcalinos</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-metal-alcalino-terroso rounded-sm mr-1"></div>
+                    <span class="text-sm">Metais Alcalino-Terrosos</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-metal-transicao rounded-sm mr-1"></div>
+                    <span class="text-sm">Metais de Transição</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-semimetal rounded-sm mr-1"></div>
+                    <span class="text-sm">Semimetais</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-nao-metal rounded-sm mr-1"></div>
+                    <span class="text-sm">Não Metais</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-halogenio rounded-sm mr-1"></div>
+                    <span class="text-sm">Halogênios</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-gas-nobre rounded-sm mr-1"></div>
+                    <span class="text-sm">Gases Nobres</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-lantanideo rounded-sm mr-1"></div>
+                    <span class="text-sm">Lantanídeos</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-actinideo rounded-sm mr-1"></div>
+                    <span class="text-sm">Actinídeos</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="overflow-x-auto">
+            <div class="tabela-periodica mb-4"></div>
+            
+            <div class="mt-2 text-center text-sm mb-4">* Lantanídeos e Actinídeos</div>
+            
+            <div class="lantanideos-actinideos tabela-periodica grid grid-cols-15 gap-1 mb-4">
+                <!-- Será preenchido via JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para detalhes do elemento -->
+    <div id="elementModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="modal-content bg-white rounded-lg shadow-xl max-w-md w-full mx-4 overflow-hidden">
+            <div id="elementHeader" class="p-4 text-white">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 id="elementSymbol" class="text-4xl font-bold"></h2>
+                        <h3 id="elementNumber" class="text-xl"></h3>
+                    </div>
+                    <button id="closeModal" class="text-white text-2xl">&times;</button>
+                </div>
+                <h3 id="elementName" class="text-2xl mt-2"></h3>
+            </div>
+            <div class="p-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Massa Atômica</p>
+                        <p id="elementMass" class="font-semibold"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Configuração Eletrônica</p>
+                        <p id="elementConfig" class="font-semibold"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Eletronegatividade</p>
+                        <p id="elementEn" class="font-semibold"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Estado à Temp. Ambiente</p>
+                        <p id="elementState" class="font-semibold"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Categoria</p>
+                        <p id="elementCategory" class="font-semibold"></p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm">Descoberta</p>
+                        <p id="elementDiscovery" class="font-semibold"></p>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Descrição</p>
+                    <p id="elementDescription" class="font-semibold"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
